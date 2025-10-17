@@ -55,12 +55,26 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    //@Todo create update functionality
+
+    private <T> void setIfNotNull(java.util.function.Consumer<T> setter, T value) {
+        if (value != null) {
+            setter.accept(value);
+        }
+    }
+
+
     public Product updateProduct(Long id, ProductDTO inputProduct) {
+        Product existingProd = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 
+        setIfNotNull(existingProd::setProductName, inputProduct.getProductName());
+        setIfNotNull(existingProd::setCategory, inputProduct.getCategory());
+        setIfNotNull(existingProd::setImageLink, inputProduct.getImageLink());
+        setIfNotNull(existingProd::setUnitCost, inputProduct.getUnitCost());
+        setIfNotNull(existingProd::setUnitPrice, inputProduct.getUnitPrice());
+        setIfNotNull(existingProd::setNumberSold, inputProduct.getNumberSold());
 
+        return productRepository.save(existingProd);
 
-        throw new UnsupportedOperationException();
     }
 
 
