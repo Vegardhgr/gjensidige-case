@@ -4,8 +4,8 @@ import no.gjensidige.product.dto.ProductDTO;
 import no.gjensidige.product.entity.Product;
 import no.gjensidige.product.exception.ProductNotFoundException;
 import no.gjensidige.product.repository.ProductRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -14,7 +14,7 @@ import org.modelmapper.ModelMapper;
 import java.math.BigInteger;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,8 +33,8 @@ public class ProductServiceUpdateTest {
     @Mock
     private ModelMapper modelMapper; // not used in update partial path but kept for consistency
 
-    @Before
-    public void setup() { MockitoAnnotations.initMocks(this); }
+    @BeforeEach
+    public void setup() { MockitoAnnotations.openMocks(this); }
 
     @Test
     public void partialUpdate_onlyProvidedFieldsChange() {
@@ -65,11 +65,11 @@ public class ProductServiceUpdateTest {
         assertEquals(BigInteger.valueOf(50), updated.getNumberSold());
     }
 
-    @Test(expected = ProductNotFoundException.class)
+    @Test
     public void updateProduct_notFoundThrows() {
         when(productRepository.findById(anyLong())).thenReturn(Optional.empty());
         ProductDTO dto = new ProductDTO();
         dto.setProductName("X");
-        productService.updateProduct(99L, dto);
+        assertThrows(ProductNotFoundException.class, () -> productService.updateProduct(99L, dto));
     }
 }

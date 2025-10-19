@@ -3,8 +3,8 @@ package no.gjensidige.product.service;
 import no.gjensidige.product.entity.Product;
 import no.gjensidige.product.model.FinancialReport;
 import no.gjensidige.product.repository.ProductRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
@@ -30,9 +30,9 @@ public class FinancialReportServiceTest {
 
     private List<Product> products;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         products = new ArrayList<>();
 
         products.add(buildProduct("Superforsikring", 100.0, 50.0, 100));          // margin per unit 50 -> total 5000

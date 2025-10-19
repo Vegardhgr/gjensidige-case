@@ -3,13 +3,13 @@ package no.gjensidige.product.controller;
 import no.gjensidige.product.dto.ProductDTO;
 import no.gjensidige.product.entity.Product;
 import no.gjensidige.product.service.ProductService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -24,8 +24,8 @@ public class ProductControllerUpdateTest {
     @Mock
     private ProductService productService;
 
-    @Before
-    public void init() { MockitoAnnotations.initMocks(this); }
+    @BeforeEach
+    public void init() { MockitoAnnotations.openMocks(this); }
 
     @Test
     public void updateProduct_updatesFields() {

@@ -4,10 +4,8 @@ import no.gjensidige.product.dto.ProductDTO;
 import no.gjensidige.product.entity.Product;
 import no.gjensidige.product.exception.ProductNotFoundException;
 import no.gjensidige.product.repository.ProductRepository;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -16,8 +14,7 @@ import org.modelmapper.ModelMapper;
 import java.math.BigInteger;
 import java.util.*;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,9 +32,9 @@ public class ProductServiceTest {
     @Mock
     ModelMapper modelMapper;
 
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -91,16 +88,11 @@ public class ProductServiceTest {
     }
 
 
-    @Test(expected = ProductNotFoundException.class)
+    @Test
     public void deleteProductWithException() {
-        Optional<Product> op = Optional.empty();
-
-        when(productRepository.findById(anyLong())).thenReturn(op);
-
-        Product product = productService.deleteProduct(10l);
-
-        verify(productRepository).findById(10l);
-        fail("Didn't throw not found exception");
+        when(productRepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(ProductNotFoundException.class, () -> productService.deleteProduct(10L));
+        verify(productRepository).findById(10L);
     }
 
     @Test
@@ -112,7 +104,8 @@ public class ProductServiceTest {
         product.setUnitPrice(55.50);
 
         when(modelMapper.map(product, ProductDTO.class)).thenReturn(mm.map(product,ProductDTO.class));
-        ProductDTO productDTO = productService.convertToDTO(product);
+    ProductDTO productDTO = productService.convertToDTO(product);
+    assertEquals(product.getProductName(), productDTO.getProductName());
     }
 
     @Test

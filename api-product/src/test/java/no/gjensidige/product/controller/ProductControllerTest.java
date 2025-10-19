@@ -1,16 +1,17 @@
 package no.gjensidige.product.controller;
 
 import no.gjensidige.product.entity.Product;
+import no.gjensidige.product.dto.ProductDTO;
 import no.gjensidige.product.service.ProductService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -24,9 +25,9 @@ public class ProductControllerTest {
     @Mock
     private ProductService productService;
 
-    @Before
+    @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -66,10 +67,39 @@ public class ProductControllerTest {
 
     @Test
     public void createProduct() {
+        ProductDTO dto = new ProductDTO();
+        dto.setProductName("Created Product");
+
+        Product created = new Product();
+        created.setId(10L);
+        created.setProductName(dto.getProductName());
+
+        when(productService.createProduct(dto)).thenReturn(created);
+
+        Product result = productController.createProduct(dto);
+
+        verify(productService).createProduct(dto);
+        assertEquals(10L, result.getId());
+        assertEquals("Created Product", result.getProductName());
     }
 
     @Test
     public void updateProduct() {
+        Long id = 5L;
+        ProductDTO dto = new ProductDTO();
+        dto.setProductName("Updated Product");
+
+        Product updated = new Product();
+        updated.setId(id);
+        updated.setProductName(dto.getProductName());
+
+        when(productService.updateProduct(id, dto)).thenReturn(updated);
+
+        Product result = productController.updateProduct(id, dto);
+
+        verify(productService).updateProduct(id, dto);
+        assertEquals(id, result.getId());
+        assertEquals("Updated Product", result.getProductName());
     }
 
     @Test
