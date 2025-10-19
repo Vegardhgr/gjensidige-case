@@ -1,3 +1,11 @@
+## Docker
+### Build
+Command: docker build -t gjensidige-product-api:latest .
+
+### Run
+Command: docker run -p 8080:8080 gjensidige-product-api:latest
+
+
 Currently, Gjensidige’s sales-team is building a new CRUD-API for one of its many product tables and need it to be finished as soon as possible. Unfortunately, the programmer responsible for this has
 turned in sick and left with an incomplete project that needs to be completed. On the phone the developer said that GET and POST methods are fully implemented. And that it was created tests for the DELETE operation, but no implementation for delete and update operations.
 
