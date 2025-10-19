@@ -1,0 +1,17 @@
+target/
+.mvn/
+*.iml
+.idea/
+.git/
+.gitignore
+*.md
+.DS_Store
+*.log
+.vscode/
+*.swp
+*.swo
+*~
+.classpath
+.project
+.settings/
+bin/
